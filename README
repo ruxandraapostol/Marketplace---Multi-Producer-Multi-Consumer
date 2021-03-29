@@ -1,0 +1,79 @@
+Nume: Apostol Ruxandra-Ecaterina
+Grupa: 336CA
+
+                                                Tema 1 - ACS
+                                                ~Marketplace~
+
+        1. ORGANIZARE
+        Marketplace:
+        - Metoda register_producer: actualizez numarul de producatori din marketplace si adaug
+    pe pozitia corespunzatoare acestuia din lista cu numarul de produse al fiecaruia producator
+    0. Pentru a evita regiunea critica pentru aceste operatii asupra campurilor dedicate
+    producatorilor folosesc mutexul producers_number_lock. La sfarsit returnez numarul atribuit
+    noului producator.
+
+        - Metoda publish: verific daca producatorul nu are deja in Marketplace numarul maxim
+    de produse. In caz afirmativ, adaug produsul in stoc, actualizez numarul de produse din
+    stoc al producatorului, adaug produsul si id-ul producatorului in lista pentru provenienta
+    fiecarui produs si returnez True. In caz contrar, returnez False
+
+        - Metoda new_cart este asemanatoare metodei register_producer cu diferenta ca adaug
+    lista goala pe pozitia atribuita noului cos in lista cu listele produselor din fiecare cos.
+
+        - Metoda add_to_cart: verific daca produsul dorit se afla in lista produselor din stoc.
+    In caz afirmativ, adaug produsul in lista cu produse corespunzatoare cosului, sterg produsul
+    dorit din lista produselor aflate in stoc si  returnez True, altfel returnez False. La
+    inceput ma asigur ca doi cumparatori nu isi pun in cos simultan acelasi produs, realizand
+    aceste operatii doar cand mutexul destinat produselor din stoc permite. Nu este cazul sa
+    apelez si la mutexul pentru variabilele legate de cosuri, intrucat m-am asigurat deja ca
+    fiecare cos are un id unic asadar doar un consumator va putea avea acces la lista produselor
+    din cosul dat ca parametru.
+
+        - Metoda remove_from_cart: sterg produsul din lista produselor din cosul curent si il
+    adaug in lista produselor din stoc. Nu este nevoie de nicio sincronizare, pentru variabilele
+    legate de cosuri avand acelasi motiv ca mai sus si pentru ca nu conteaza daca mai multe
+    thread-uri adauga simultan produse in lista stocului (asadar, nu este necesara nici
+    folosirea mutexului pentru variabilele referitoare la produsele din stoc).
+
+        - Metoda place_order: transform lista cu tupluri (produs, origine) intr-un dictionar
+    pentru a usura cautarea unui element in functie de cheie. Pentru fiecare produs din lista
+    cosului dorit ma asigur ca doi consumatori nu vor sa cumpere acelasi produs desi ei au
+    produse diferite in cos prin mutexul pentru variabilele referitoare la producatori. Verific
+    daca gasesc in noul dictionar produsul dat, scad numarul de produse din stoc al
+    producatorului atribuit acestuia si afisez sintagma dorita. La sfarsit returnez lista
+    corespunzatoare cosului.
+
+
+        Producer:
+        Pentru fiecare producator nou cer crearea unui id prin marketplace.register_producer().
+    Cat timp programul nu s-a terminat, pentru fiecare produs din lista incerc sa adaug acel
+    produs in stoc pana ating cantitatea indicata. Daca aceasta adaugare s-a adaugat cu succes
+    astept timpul necesar produsului si trec mai departe, altfel astept timpul necesar
+    producatorului.
+
+
+        Consumator:
+        Pentru fiecare cos din lista, atribui un id apoi pentru fiecare operatie din acest cos
+    verific tipul ei. Atat pentru adaugare (marketplace.add_to_cart(cart_id, action["product"])),
+    cat si pentru scoatere (marketplace.remove_from_cart(cart_id, action["product"])), realizez
+    acea operatie pana ating cantitatea dorita. In cazul adaugarii trebuie sa verific daca
+    operatia avut loc cu succes inainte sa trec mai departe, in caz negativ astept. La sfarsit
+    afisez produsele din cos apeland marketplace.place_order(self.kwargs["name"], cart_id).
+
+
+        Consider ca prin realizarea acestei teme am aprofundat mult mai bine notiunile invatate
+    atat la laborator, cat si la curs, fara a necesita o documentare suplimentara.
+        Consider ca implementarea mea putea sa fie mai eficienta daca as fi complicat solutia si
+    nu retineam asocierea dintre un produs aflat in stoc si producatorul lui intr-o lista de
+    tupluri si nu aveam o lista de liste pentru produsele din fiecare cos.
+
+
+
+        2. IMPLEMENTARE
+        Intregul enunt al temei a fost implementat, fapt ce se reflecta in trecerea tuturor
+    testelor. Singura dificultate intampinata in aceasta tema a fost gestionarea corecta a
+    regiunilor critice.
+
+
+
+        3. GITHUB
