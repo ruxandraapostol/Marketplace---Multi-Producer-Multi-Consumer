@@ -23,17 +23,32 @@ class Marketplace:
         """
         self.queue_size_per_producer = queue_size_per_producer
 
-        self.producers_number = -1              # numarul producatorilor necesar obtinerii id-ului
-        self.producers_items = []               # lista care retine cate produse are adaugate producatorul cu id-ul i
-        self.producers_number_lock = Lock()     # mutex pentru a modifica variabilele referitoare la producatori
+        # numarul producatorilor necesar obtinerii id-ului
+        self.producers_number = -1
 
-        self.available_products = []            # lista cu toate produsele din stoc
-        self.available_products_origin = []     # lista cu tupluri de forma (produs, id-ul producatorului)
-        self.available_products_lock = Lock()   # mutex pentru variabilele referitoare la produsele din stoc
+        # lista care retine cate produse are adaugate producatorul cu id-ul i
+        self.producers_items = []
 
-        self.carts_number = -1                  # numarul cosurilor necesar pentru obtinerea id-ului
-        self.carts = []                         # lista cu listele produselor din fiecare cos
-        self.carts_number_lock = Lock()         # mutex pentru modificarea variabilelor referitoare la cosuri
+        # mutex pentru a modifica variabilele referitoare la producatori
+        self.producers_number_lock = Lock()
+
+        # lista cu toate produsele din stoc
+        self.available_products = []
+
+        # lista cu tupluri de forma (produs, id-ul producatorului)
+        self.available_products_origin = []
+
+        # mutex pentru variabilele referitoare la produsele din stoc
+        self.available_products_lock = Lock()
+
+        # numarul cosurilor necesar pentru obtinerea id-ului
+        self.carts_number = -1
+
+        # lista cu listele produselor din fiecare cos
+        self.carts = []
+
+        # mutex pentru modificarea variabilelor referitoare la cosuri
+        self.carts_number_lock = Lock()
 
     def register_producer(self):
         """
