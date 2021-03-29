@@ -73,7 +73,11 @@ Grupa: 336CA
         Intregul enunt al temei a fost implementat, fapt ce se reflecta in trecerea tuturor
     testelor. Singura dificultate intampinata in aceasta tema a fost gestionarea corecta a
     regiunilor critice.
+        Sper ca nu este o problema ca am ales sa imi adaug comentariile in cod prin #, dar am
+    vrut sa se diferentieze de cele existente in schelet si imi place mai mult caand
+    comentariile au o culoare mai putin proeminenta. =))
 
 
 
         3. GITHUB
+        https://github.com/ruxandraapostol/Marketplace---Multi-Producer-Multi-Consumer.git
